@@ -12,6 +12,7 @@ import (
 
 func main() {
 	var count string
+	fmt.Print("ガチャを回す回数は? > ")
 	fmt.Scan(&count)
 
 	var conn *grpc.ClientConn
