@@ -1,0 +1,21 @@
+syntax = "proto3"; //ProtocolBufferのバージョン
+
+package gacha; // 全体の名前空間
+
+option go_package = "../gacha";
+
+service Gacha {
+  // rpc 実行関数(引数) returns (返り値) {}
+  rpc GachaResult(Request) returns (Response) {}
+}
+
+message Request {
+  // (添字) 型 パラメータ名 = 処理インデックス
+  string count = 1;
+}
+
+message Response {
+  // repeated を添字にすることで0個以上のパラメータを受け取ることができる
+  // 配列を指定したいときに使う
+  repeated string result = 1;
+}
