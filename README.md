@@ -27,11 +27,11 @@ Python のライブラリをインストール
 
 protoファイルに Protocol Buffer を定義する
 
-Go 用にビルドする
+__Go__ 用にビルドする
 
 ```protoc --go_out=plugins=grpc:../gacha gacha.proto```
 
-Python 用にビルドする
+__Python__ 用にビルドする
 
 ```python -m grpc_tools.protoc -I. --python_out=../gacha --grpc_python_out=../gacha ./gacha.proto```
 
@@ -51,6 +51,10 @@ Python 用にビルドする
 
 ## client
 
-ガチャを回す回数を標準入力してからリクエストをしている
+ガチャを回す回数を標準入力してからリクエストを送る
 
 ```go run client.go```
+
+Flask でWebサーバーを立ててリクエストを送る
+
+```python client.py```

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<ul>提供割合
+    <li>星4： 5%</li>
+    <li>星3：15%</li>
+    <li>星2：80%</li>
+</ul>
+<form action="/result" method="GET">
+    <p>ガチャを回す回数は？</p>
+    <input type="text" name="count">
+    <input type="submit" value="回す">
+</form>
+{% endblock %}
