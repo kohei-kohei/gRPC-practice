@@ -77,6 +77,8 @@ type Response struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
+	// repeated を添字にすることで0個以上のパラメータを受け取ることができる
+	// 配列を指定したいときに使う
 	Result []string `protobuf:"bytes,1,rep,name=result,proto3" json:"result,omitempty"`
 }
 
@@ -127,12 +129,15 @@ var file_gacha_proto_rawDesc = []byte{
 	0x14, 0x0a, 0x05, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
 	0x63, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x22, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
 	0x65, 0x12, 0x16, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x09, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x32, 0x39, 0x0a, 0x05, 0x47, 0x61, 0x63,
+	0x09, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x32, 0x6b, 0x0a, 0x05, 0x47, 0x61, 0x63,
 	0x68, 0x61, 0x12, 0x30, 0x0a, 0x0b, 0x47, 0x61, 0x63, 0x68, 0x61, 0x52, 0x65, 0x73, 0x75, 0x6c,
 	0x74, 0x12, 0x0e, 0x2e, 0x67, 0x61, 0x63, 0x68, 0x61, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x1a, 0x0f, 0x2e, 0x67, 0x61, 0x63, 0x68, 0x61, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x22, 0x00, 0x42, 0x0a, 0x5a, 0x08, 0x2e, 0x2e, 0x2f, 0x67, 0x61, 0x63, 0x68, 0x61,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x65, 0x22, 0x00, 0x12, 0x30, 0x0a, 0x0b, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x52, 0x65, 0x73,
+	0x75, 0x6c, 0x74, 0x12, 0x0e, 0x2e, 0x67, 0x61, 0x63, 0x68, 0x61, 0x2e, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x0f, 0x2e, 0x67, 0x61, 0x63, 0x68, 0x61, 0x2e, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0a, 0x5a, 0x08, 0x2e, 0x2e, 0x2f, 0x67, 0x61, 0x63,
+	0x68, 0x61, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -154,9 +159,11 @@ var file_gacha_proto_goTypes = []interface{}{
 }
 var file_gacha_proto_depIdxs = []int32{
 	0, // 0: gacha.Gacha.GachaResult:input_type -> gacha.Request
-	1, // 1: gacha.Gacha.GachaResult:output_type -> gacha.Response
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	0, // 1: gacha.Gacha.TotalResult:input_type -> gacha.Request
+	1, // 2: gacha.Gacha.GachaResult:output_type -> gacha.Response
+	1, // 3: gacha.Gacha.TotalResult:output_type -> gacha.Response
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -227,6 +234,7 @@ const _ = grpc.SupportPackageIsVersion6
 type GachaClient interface {
 	// rpc 実行関数(引数) returns (返り値) {}
 	GachaResult(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+	TotalResult(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 }
 
 type gachaClient struct {
@@ -246,10 +254,20 @@ func (c *gachaClient) GachaResult(ctx context.Context, in *Request, opts ...grpc
 	return out, nil
 }
 
+func (c *gachaClient) TotalResult(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
+	err := c.cc.Invoke(ctx, "/gacha.Gacha/TotalResult", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GachaServer is the server API for Gacha service.
 type GachaServer interface {
 	// rpc 実行関数(引数) returns (返り値) {}
 	GachaResult(context.Context, *Request) (*Response, error)
+	TotalResult(context.Context, *Request) (*Response, error)
 }
 
 // UnimplementedGachaServer can be embedded to have forward compatible implementations.
@@ -258,6 +276,9 @@ type UnimplementedGachaServer struct {
 
 func (*UnimplementedGachaServer) GachaResult(context.Context, *Request) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GachaResult not implemented")
+}
+func (*UnimplementedGachaServer) TotalResult(context.Context, *Request) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TotalResult not implemented")
 }
 
 func RegisterGachaServer(s *grpc.Server, srv GachaServer) {
@@ -282,6 +303,24 @@ func _Gacha_GachaResult_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Gacha_TotalResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GachaServer).TotalResult(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/gacha.Gacha/TotalResult",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GachaServer).TotalResult(ctx, req.(*Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Gacha_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "gacha.Gacha",
 	HandlerType: (*GachaServer)(nil),
@@ -289,6 +328,10 @@ var _Gacha_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GachaResult",
 			Handler:    _Gacha_GachaResult_Handler,
+		},
+		{
+			MethodName: "TotalResult",
+			Handler:    _Gacha_TotalResult_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

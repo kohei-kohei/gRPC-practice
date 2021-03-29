@@ -16,11 +16,29 @@ import (
 type Server struct {
 }
 
+type TotalResult struct {
+	count int
+	rare4 int
+	rare3 int
+	rare2 int
+}
+
+var totalResult TotalResult
+
 // .protoファイルに定義した関数を記述
 func (s *Server) GachaResult(ctx context.Context, in *gacha.Request) (*gacha.Response, error) {
 	log.Printf("Receive message body from client: %s", in.Count)
-
 	return &gacha.Response{Result: getResult(in.Count)}, nil
+}
+
+func (s *Server) TotalResult(ctx context.Context, in *gacha.Request) (*gacha.Response, error) {
+	log.Printf("Receive message body from client: %s", in.Count)
+	var results []string
+	results = append(results, strconv.Itoa(totalResult.count))
+	results = append(results, strconv.Itoa(totalResult.rare4))
+	results = append(results, strconv.Itoa(totalResult.rare3))
+	results = append(results, strconv.Itoa(totalResult.rare2))
+	return &gacha.Response{Result: results}, nil
 }
 
 func getResult(count string) []string {
@@ -39,14 +57,20 @@ func getResult(count string) []string {
 
 func gachaConfig(num int) string {
 	var result string
+	rare4Rate := 5
+	rare3Rate := 15
+	totalResult.count += 1
 
 	switch {
-	case num < 5:
+	case num < rare4Rate:
 		result = "星4"
-	case num < 20:
+		totalResult.rare4 += 1
+	case num < rare4Rate+rare3Rate:
 		result = "星3"
+		totalResult.rare3 += 1
 	default:
 		result = "星2"
+		totalResult.rare2 += 1
 	}
 
 	return result

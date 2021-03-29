@@ -10,4 +10,10 @@
     <input type="text" name="count">
     <input type="submit" value="回す">
 </form>
+<p>今までのガチャの結果（累計：{{ results[0] }}回）</p>
+<ul>
+    <li>星4： {{ results[1] }}</li>
+    <li>星3： {{ results[2] }}</li>
+    <li>星2： {{ results[3] }}</li>
+</ul>
 {% endblock %}
