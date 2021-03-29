@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=b'Z\010../gacha',
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0bgacha.proto\x12\x05gacha\"\x18\n\x07Request\x12\r\n\x05\x63ount\x18\x01 \x01(\t\"\x1a\n\x08Response\x12\x0e\n\x06result\x18\x01 \x03(\t29\n\x05Gacha\x12\x30\n\x0bGachaResult\x12\x0e.gacha.Request\x1a\x0f.gacha.Response\"\x00\x42\nZ\x08../gachab\x06proto3'
+  serialized_pb=b'\n\x0bgacha.proto\x12\x05gacha\"\x18\n\x07Request\x12\r\n\x05\x63ount\x18\x01 \x01(\t\"\x1a\n\x08Response\x12\x0e\n\x06result\x18\x01 \x03(\t2k\n\x05Gacha\x12\x30\n\x0bGachaResult\x12\x0e.gacha.Request\x1a\x0f.gacha.Response\"\x00\x12\x30\n\x0bTotalResult\x12\x0e.gacha.Request\x1a\x0f.gacha.Response\"\x00\x42\nZ\x08../gachab\x06proto3'
 )
 
 
@@ -117,12 +117,22 @@ _GACHA = _descriptor.ServiceDescriptor(
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
   serialized_start=76,
-  serialized_end=133,
+  serialized_end=183,
   methods=[
   _descriptor.MethodDescriptor(
     name='GachaResult',
     full_name='gacha.Gacha.GachaResult',
     index=0,
+    containing_service=None,
+    input_type=_REQUEST,
+    output_type=_RESPONSE,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='TotalResult',
+    full_name='gacha.Gacha.TotalResult',
+    index=1,
     containing_service=None,
     input_type=_REQUEST,
     output_type=_RESPONSE,

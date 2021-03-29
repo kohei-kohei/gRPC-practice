@@ -19,6 +19,11 @@ class GachaStub(object):
                 request_serializer=gacha__pb2.Request.SerializeToString,
                 response_deserializer=gacha__pb2.Response.FromString,
                 )
+        self.TotalResult = channel.unary_unary(
+                '/gacha.Gacha/TotalResult',
+                request_serializer=gacha__pb2.Request.SerializeToString,
+                response_deserializer=gacha__pb2.Response.FromString,
+                )
 
 
 class GachaServicer(object):
@@ -31,11 +36,22 @@ class GachaServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def TotalResult(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_GachaServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'GachaResult': grpc.unary_unary_rpc_method_handler(
                     servicer.GachaResult,
+                    request_deserializer=gacha__pb2.Request.FromString,
+                    response_serializer=gacha__pb2.Response.SerializeToString,
+            ),
+            'TotalResult': grpc.unary_unary_rpc_method_handler(
+                    servicer.TotalResult,
                     request_deserializer=gacha__pb2.Request.FromString,
                     response_serializer=gacha__pb2.Response.SerializeToString,
             ),
@@ -61,6 +77,23 @@ class Gacha(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/gacha.Gacha/GachaResult',
+            gacha__pb2.Request.SerializeToString,
+            gacha__pb2.Response.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def TotalResult(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/gacha.Gacha/TotalResult',
             gacha__pb2.Request.SerializeToString,
             gacha__pb2.Response.FromString,
             options, channel_credentials,
